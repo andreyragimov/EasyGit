@@ -7,10 +7,10 @@ from PyQt5.QtWidgets import QApplication, QWidget
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    w = QWidget()
-    w.resize(250, 150)
-    w.move(300, 300)
-    w.setWindowTitle('Happy New Year!')
-    w.show()
+    MainWindow = QWidget()
+    MainWindow.resize(250, 150)
+    MainWindow.move(300, 300)
+    MainWindow.setWindowTitle('Happy New Year!')
+    MainWindow.show()
 
     sys.exit(app.exec_())
