@@ -1,33 +1,35 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from PyQt5.QtCore import QObject, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSlot, QUrl
 from PyQt5.QtWebKitWidgets import QWebView
 
 view = QWebView()
-
-html = """
-<html>
-<body>
-    <h1>Hello!</h1><br>
-    <h2><a href="#" onclick="printer.text('Message from QWebView')">QObject Test</a></h2>
-    <h2><a href="#" onclick="document.getElementById('test').innerHTML = printer.xd('msg')">JS test</a></h2>
-    <div id="test">1</div>
-</body>
-</html>
-"""
+frame = view.page().mainFrame()  # todo check is it changing
 
 
-class Pages(QObject):
-    def __init__(self, parent=None):
-        super(Pages, self).__init__(parent)
+class Loader(QObject):
+    def __init__(self):
+        QObject.__init__(self)
 
     @pyqtSlot(str)
-    def text(self, message):
-        print(message)
+    def load(self, url):
+        view.setUrl(QUrl('qrc:///' + url))
+        print("url changed to:" + url)
 
     @pyqtSlot(str, result=str)
     def xd(self, message):
         return "xD"
 
+from models import test_model
 
+
+def add_loader():
+    view.page().mainFrame().addToJavaScriptWindowObject('loader', loader)
+    view.page().mainFrame().addToJavaScriptWindowObject('foo', foo)
+    #frame.evaluateJavaScript("alert('Hello');")
+    #frame.evaluateJavaScript("printer.text('Goooooooooo!');")
+
+loader = Loader()
+foo = test_model.Foo()
+view.page().mainFrame().javaScriptWindowObjectCleared.connect(add_loader)
