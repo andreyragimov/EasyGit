@@ -15,3 +15,4 @@ class Foo(QObject):
     @total.setter
     def total(self, value):
         self._total = value
+        print("changed total to:", value)

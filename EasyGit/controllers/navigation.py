@@ -21,15 +21,3 @@ class Loader(QObject):
     def xd(self, message):
         return "xD"
 
-from models import test_model
-
-
-def add_loader():
-    view.page().mainFrame().addToJavaScriptWindowObject('loader', loader)
-    view.page().mainFrame().addToJavaScriptWindowObject('foo', foo)
-    #frame.evaluateJavaScript("alert('Hello');")
-    #frame.evaluateJavaScript("printer.text('Goooooooooo!');")
-
-loader = Loader()
-foo = test_model.Foo()
-view.page().mainFrame().javaScriptWindowObjectCleared.connect(add_loader)
